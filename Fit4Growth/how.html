@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
 
 <!-- Google Font einbinden -->
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
@@ -10,12 +11,14 @@
 body {
   font-family: 'Source Sans Pro', sans-serif;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin-top: 50px;
 }
 
 .cards-container {
   display: flex;
+  width: 100%;
+  justify-content: space-between;
   gap: 20px; /* Abstand zwischen den Karten */
   flex-wrap: wrap; /* Karten umbrechen, wenn Bildschirm zu klein */
 }
@@ -54,7 +57,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 20px;
   box-sizing: border-box;
 }
 
