@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+
+<!-- Google Font einbinden -->
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.cards-wrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 30px; /* Abstand zwischen den Reihen */
+}
+
+.cards-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 20px; /* Abstand zwischen den Karten */
+  flex-wrap: wrap; /* Karten umbrechen, wenn Bildschirm zu klein */
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 250px;
+  height: 250px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-radius: 15px;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  background-color: white;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.flip-card-front {
+  color: black;
+}
+
+.flip-card-back {
+  color: black;
+  transform: rotateY(180deg);
+}
+</style>
+</head>
+<body>
+
+<div class="cards-wrapper">
+
+  <!-- Obere 3 Karten -->
+  <div class="cards-row">
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <h3>Aufgaben</h3>
+        </div>
+        <div class="flip-card-back">
+          <p>Details oder Zusatzinfos zu den Aufgaben.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <h3>Kompetenzen & Verantwortungsprofile & Governance</h3>
+        </div>
+        <div class="flip-card-back">
+          <p>Details zu Kompetenzen, Verantwortungen und Governance.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <h3>Führungskräfte-Rolle in der Grundausbildung & Führungskräfte-Ausbildung</h3>
+        </div>
+        <div class="flip-card-back">
+          <p>Infos zur Rolle und Ausbildung der Führungskräfte.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Untere 3 Karten -->
+  <div class="cards-row">
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <h3>Überarbeitung der Grundausbildung</h3>
+        </div>
+        <div class="flip-card-back">
+          <p>Details zur neuen Struktur und Inhalten.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <h3>Kompetenzen & LMS</h3>
+        </div>
+        <div class="flip-card-back">
+          <p>Infos zu Lernplattform und Kompetenzentwicklung.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <h3>Erfolgsmessung, Weiterbildungen</h3>
+        </div>
+        <div class="flip-card-back">
+          <p>KPIs, Erfolgsmessung und Weiterbildungsmaßnahmen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
