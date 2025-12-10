@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <!-- Google Font einbinden -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+    }
+
+    .cards-container {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      gap: 20px;
+      /* Abstand zwischen den Karten */
+      flex-wrap: wrap;
+      /* Karten umbrechen, wenn Bildschirm zu klein */
+    }
+
+    .flip-card {
+      background-color: transparent;
+      width: 250px;
+      height: 250px;
+      perspective: 1000px;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      background-color: white;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow: hidden;
+      overflow-y: auto;
+    }
+
+    .flip-card-front {
+      color: black;
+    }
+
+    .flip-card-back {
+      color: black;
+      transform: rotateY(180deg);
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .flip-card-back ul{
+      box-sizing: border-box;
+      width:100%;
+      height:100%;
+      margin:0;
+      padding-bottom:20px;
+    }
+    .flip-card-back ul li{
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="cards-container">
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <h3>Wir stärken die Angebote und die Qualität nachhaltig</h3>
+        </div>
+        <div class="flip-card-back">
+          <ul>
+            <li>Zielgruppengerechte Learner Journey</li>
+            <li>Enge Lernbegleitung im Grundkurs</li>
+            <li>Erstellung Aus- und Weiterbildungsangebote für gesamte Karrierepfad</li>
+            <li>Einführung Basiskurs „Welcome@AXA“ im Grundkurs</li>
+            <li>Überprüfung Verkaufsschulungsangebote für Innendienst und Aussendienst</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <h3>Wir sichern Praxisnähe und Verbindlichkeit</h3>
+        </div>
+        <div class="flip-card-back">
+          <ul>
+            <li>Stärkung Business Trainer Modell</li>
+            <li>Erhöhung Praxisbezug Trainer</li>
+            <li>Erhöhung interaktive Lernformate</li>
+            <li>Einführung Onboarding-Trainings für Führungskräfte</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <h3>Wir schaffen Klarheit und Verantwortung</h3>
+        </div>
+        <div class="flip-card-back">
+          <ul>
+            <li>Einführung Angebotsentwicklungs--und Abnahmeprozesse inkl. Single Point of Contact für Lernangebote</li>
+            <li>Klar definierte Rollen und Kompetenzprofile in unserem Sektor</li>
+            <li>Entlastung Führungskräfte im Grundkurs & klar definierte Rollen</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <h3>Wir machen Wirkung und Entwicklung sichtbar</h3>
+        </div>
+        <div class="flip-card-back">
+          <ul>
+            <li>Entwicklung / Einführung KPI-Dashboard</li>
+            <li>Unterstützung Handhabung Learning Management System für Führungskräfte</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
