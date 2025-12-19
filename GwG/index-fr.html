@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GwG Zertifikat Vorlage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --brand-bg: #9190ac;
+            --brand-accent: #00adc6;
+            --text-on-brand: #fff;
+            --app-bg: #f5f7fb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Source Sans Pro", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: var(--app-bg);
+            color: #111;
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 16px;
+            height: 100vh;
+            padding: 16px;
+        }
+
+        @media (max-width: 980px) {
+            .app {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+        }
+
+        .panel {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .panel-header {
+            padding: 16px;
+            border-bottom: 1px solid #e9ecf2;
+            background: #fff;
+            font-weight: 700;
+        }
+
+        .panel-body {
+            padding: 16px;
+            overflow: auto;
+            height: 100%;
+        }
+
+        form .field {
+            margin-bottom: 14px;
+        }
+
+        form label {
+            display: block;
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="date"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d8dbe2;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: #fff;
+        }
+
+        form input:focus {
+            border-color: #6b7cff;
+            box-shadow: 0 0 0 3px rgba(107, 124, 255, 0.15);
+        }
+
+        .help {
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+            margin-bottom: 12px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: #111827;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.04s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+            user-select: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(17, 24, 39, 0.15);
+        }
+
+        .btn.secondary {
+            background: #fff;
+            color: #111;
+            border-color: #d8dbe2;
+        }
+
+        .btn.secondary:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Preview frame container */
+        .preview-wrap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #eef1f6;
+            overflow: hidden;
+        }
+
+        .preview-frame {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: #fff;
+        }
+
+        /* Print only certificate if ever printing this page (we print a separate window anyway) */
+        @media print {
+            body {
+                background: transparent;
+            }
+
+            .app {
+                display: block;
+                padding: 0;
+            }
+
+            .panel:not(.preview) {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- Left: Inputs -->
+        <div class="panel">
+            <div class="panel-header">Zertifikat – Eingaben</div>
+            <div class="panel-body">
+                <form id="certForm" autocomplete="off">
+                    <div class="field">
+                        <label for="name">Name</label>
+                        <input id="name" name="name" type="text" placeholder="Vorname Nachname" />
+                    </div>
+                    <div class="field">
+                        <label for="mail">E-Mail</label>
+                        <input id="mail" name="mail" type="email" placeholder="name@beispiel.ch" />
+                    </div>
+                    <div class="field">
+                        <label for="brokerfirma">Brokerfirma</label>
+                        <input id="brokerfirma" name="brokerfirma" type="text" placeholder="Beispiel Broker AG" />
+                    </div>
+                    <div class="field">
+                        <label for="finma">FINMA-Register-Nr. (optional)</label>
+                        <input id="finma" name="finma" type="text" placeholder="z.B. 99999" />
+                    </div>
+                    <div class="field">
+                        <label for="date">Ausstellungsdatum</label>
+                        <input id="date" name="date" type="date" />
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn" type="button" id="downloadBtn">Zertifikat als PDF herunterladen</button>
+                        <button class="btn secondary" type="reset" id="resetBtn">Felder leeren</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Right: Live preview -->
+        <div class="panel preview">
+            <div class="panel-header">Vorschau</div>
+            <div class="panel-body" style="padding:0;">
+                <div class="preview-wrap">
+                    <iframe id="previewFrame" class="preview-frame" title="Zertifikat-Vorschau"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Utility: escape HTML to prevent breaking the template if special chars are entered
+        function escapeHTML(str) {
+            if (str == null) return "";
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function formatDateDE(isoDateStr) {
+            // isoDateStr is YYYY-MM-DD from <input type="date">
+            if (!isoDateStr) return new Date().toLocaleDateString("de-DE");
+            const [y, m, d] = isoDateStr.split("-").map(Number);
+            const dt = new Date(y, (m || 1) - 1, d || 1);
+            if (isNaN(dt.getTime())) return new Date().toLocaleDateString("de-DE");
+            return dt.toLocaleDateString("de-DE");
+        }
+
+        // Build the certificate HTML (similar to your original, without tracking and storage)
+        function buildCertificateHTML({ name, mail, brokerfirma, finma, displayDate }) {
+            const safeName = escapeHTML(name);
+            const safeMail = escapeHTML(mail);
+            const safeBroker = escapeHTML(brokerfirma);
+            const safeFinma = escapeHTML(finma);
+
+            const mailPart = safeMail ? ` (${safeMail})` : "";
+            const finmaLine = safeFinma ? `N° registre FINMA: ${safeFinma}` : "";
+
+            return `<!DOCTYPE html>
+            <html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+            <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <meta name="x-apple-disable-message-reformatting">
+            <title>Certificat</title>
+            <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700;900&display=swap" rel="stylesheet">
+            <style>
+                table, td, div, h1, p, li { font-family: Source Sans Pro, sans-serif; }
+                * { margin:0; padding:0; box-sizing: border-box; }
+                body { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+                div.titlepage {
+                page: blank;
+                background-color:#9190ac;
+                color:#fff;
+                width: 29.7cm;
+                height: 21cm;
+                overflow:hidden;
+                margin: 0;
+                }
+                @page { size: 29.7cm 21cm; margin:0; }
+                ul { margin-left: 34px; margin-top: 10px; padding-left: 1.5em; }
+            </style>
+            </head>
+            <body style="background-color:#9190ac;color:#fff;">
+            <div class="titlepage" lang="fr" style="text-size-adjust:100%;">
+                <table role="presentation" style="width:100%;border:none;border-spacing:0;background-image: url('data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20315.75%20283.47%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpolygon%20points%3D%22219.02%200%20315.75%200%2097.45%20283.47%200%20283.47%20219.02%200%22%20fill%3D%22%2300adc6%22%2F%3E%0A%3C%2Fsvg%3E');background-size:100% 100%;background-position:-380px 50px;background-repeat:no-repeat">
+                <tr>
+                    <td align="center">
+                    <table role="presentation" style="width:700px;border:none;border-spacing:0;text-align:left;font-size:16px;line-height:22px;min-width:650px;">
+                        <tr>
+                        <td style="height:120px;" colspan="2">
+                            <svg width="64px" height="64px" style="margin-left:20px;" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <polygon points="39.29 31.63 62.48 1.52 59.05 1.52 35.79 31.63" fill="#E62D2E"></polygon>
+                            <path d="M0,0V64H64V0H0ZM62.48,62.48H1.52v-6.09h2.69c.03-.24,1.54-2.4,1.75-2.6,.2-.21,5.37-7,5.37-7h9.06l1.06,3.67s-2.64,3.46-3.35,4.29c-.42.49-1.63,1.64-1.63,1.64h4.26s.15-.35.49-.99c.34-.63,1.55-2.1,1.55-2.1,0,0,.53,1.64.57,1.92,.05.34.2,1.17.2,1.17h4.31s.15-.33.5-.96c.34-.63,1.59-2,1.59-2,0,0,.48,1.52,.52,1.8,.05.34,.2,1.17,.2,1.17h5.51s-.82-1.43-1.01-1.9c-.11-.26-1.83-5.66-1.83-5.66l1.44-2.03h9.13s2.08,6.69,2.33,7.57c.16,.66.25,1.34.27,2.03h5.75c-.87-.62-3.06-8.35-4.12-11.32l-2.78-9.65c-.14-.37-.24-1.7-.24-1.7h-4.45c-.24.63-.64,1.22-.92,1.73-.34.63-5.99,8.04-7.23,9.62-.18.23-.29.36-.29.36,0-.01-.04-.15-.09-.36-.2-.71-.62-2.14-.62-2.14,0,0,4.81-6.12,5.31-6.74,1.46-1.85,2.3-2.46,2.3-2.46h-4.56c-.04.49-.2.97-.46,1.39-.22.34-3.95,5.01-3.95,5.01,0,0-1.17-4.23-1.4-4.92-.14-.48-.2-.99-.18-1.49h-5.47c.21.23.84,1.8.84,1.8l2.7,8.3-1.58,2.02c-.07-.1-2.92-9.46-3.04-9.85-.14-.44-.28-2.26-.28-2.26h-4.68s-.91,1.98-1.54,2.9c-.26.38-3.23,4.36-6.39,8.45-3.52,4.69-7.35,9.45-7.44,9.51-.04,.03-.07,.07-.11,.1V1.52H62.48V62.48ZM18.15,39.68c.21,.82,1.38,4.45,1.38,4.45h-6.09s3.84-4.68,4.5-6.08c.07-.16,.09-.03,.09.04-.03,.53.01,1.07,.12,1.59Zm7.92,9.33l1.62-2.1s.94,2.86,1.1,3.03l-1.68,2.3-1.04-3.23Zm15.47-9.33c.21,.82,1.39,4.45,1.39,4.45h-6.09s3.84-4.68,4.5-6.08c.07-.16,.09-.03,.09 .04-.03,.53 .01,1.07,.12,1.59h0Z" fill="#fff"></path>
+                            </svg>
+                            <p style="float:right;">${escapeHTML(displayDate)}</p>
+                        </td>
+                        </tr>
+
+                        <tr>
+                        <td colspan="2">
+                            <h1 style="margin-bottom:60px;margin-left:30%;font-size:72px;line-height:32px;font-weight:900;font-family:'Publico Headline', Georgia, serif;">Certificat</h1>
+
+                            <div style="letter-spacing:0.02em;margin-left:140px;">
+                            <h3 style="margin:0 0 20px 150px;font-family:'Publico Headline', Georgia, serif;font-size:28px;line-height:32px;">
+                                <span style="margin-left:48px">Nous confirmons que</span><br>
+                                <span style="margin-left:24px">cette formation a été</span><br>
+                                <span style="margin-left:0px">couronnée de succès</span>
+                            </h3>
+
+                            <p style="margin:0 0 5px 136px">
+                                <span style="font-size:24px;"><b>${safeName || "&nbsp;"}</b></span>${mailPart}
+                            </p>
+
+                            <p style="margin:0 0 0 112px">Courtier: ${safeBroker || "&nbsp;"}</p>
+
+                            <p style="margin:0 0 20px 102px">${finmaLine}</p>
+
+                            <p style="margin-bottom:10px">
+                                <span style="margin-left:68px">Vous avez suivi avec succès la remise à niveau</span><br>
+                                <span style="margin-left:51px"><b>LBA 2025</b>. La formation portrait sur les thèmes suivants:</span>
+                            </p>
+
+                            <ul>
+                                <li>Définition du blanchiment d&#39;argent</li>
+                                <li>Environnement réglementaire</li>
+                                <li>Devoir de diligence et obligation de documentation</li>
+                                <li>Identification du cocontractant</li>
+                                <li>Détermination et vérification de l&#39;ayant droit économique</li>
+                                <li>Profil du client et obligations de clarification</li>
+                                <li>Contrôle de plausibilité</li>
+                                <li>Relations d&#39;affaires et transactions présentant des risques accrus</li>
+                                <li>Personnes politiquement exposées - PEP</li>
+                                <li>Vérification et mise à jour régulières des données des clients</li>
+                                <li>Procédure en cas de soupçons</li>
+                            </ul>
+                            </div>
+                        </td>
+                        </tr>
+
+                        <tr><td style="height:80px;" colspan="2"></td></tr>
+                    </table>
+                    </td>
+                </tr>
+                </table>
+            </div>
+            </body>
+            </html>`;
+        }
+
+        // Get DOM elements
+        const form = document.getElementById("certForm");
+        const nameInput = document.getElementById("name");
+        const mailInput = document.getElementById("mail");
+        const brokerInput = document.getElementById("brokerfirma");
+        const finmaInput = document.getElementById("finma");
+        const dateInput = document.getElementById("date");
+        const previewFrame = document.getElementById("previewFrame");
+        const downloadBtn = document.getElementById("downloadBtn");
+        const resetBtn = document.getElementById("resetBtn");
+
+        function getValues() {
+            return {
+                name: nameInput.value.trim(),
+                mail: mailInput.value.trim(),
+                brokerfirma: brokerInput.value.trim(),
+                finma: finmaInput.value.trim(),
+                displayDate: formatDateDE(dateInput.value)
+            };
+        }
+
+        function updatePreview() {
+            const html = buildCertificateHTML(getValues());
+            const doc = previewFrame.contentWindow.document;
+            doc.open();
+            doc.write(html);
+            doc.close();
+        }
+
+        // Initialize date to today
+        (function init() {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, "0");
+            const dd = String(now.getDate()).padStart(2, "0");
+            dateInput.value = `${yyyy}-${mm}-${dd}`;
+            updatePreview();
+        })();
+
+        // Live update preview on any input changes
+        [nameInput, mailInput, brokerInput, finmaInput, dateInput].forEach(el => {
+            el.addEventListener("input", updatePreview);
+        });
+
+        // Print to PDF (opens a new window like your original)
+        downloadBtn.addEventListener("click", () => {
+            const html = buildCertificateHTML(getValues());
+            const printWindow = window.open("", "_blank", "width=900,height=700");
+            if (!printWindow) {
+                alert("Bitte Pop-ups für diese Seite erlauben, um das PDF zu erstellen.");
+                return;
+            }
+            printWindow.document.open();
+            printWindow.document.write(html);
+            printWindow.document.close();
+            printWindow.focus();
+            // Slight delay can improve reliability on some browsers
+            setTimeout(() => {
+                printWindow.print();
+                // Close after print (some browsers ignore this if blocked)
+                setTimeout(() => { printWindow.close(); }, 100);
+            }, 300);
+        });
+
+        // Reset form and preview
+        resetBtn.addEventListener("click", (e) => {
+            // Allow reset to clear inputs; then restore today's date and refresh preview
+            setTimeout(() => {
+                const now = new Date();
+                const yyyy = now.getFullYear();
+                const mm = String(now.getMonth() + 1).padStart(2, "0");
+                const dd = String(now.getDate()).padStart(2, "0");
+                dateInput.value = `${yyyy}-${mm}-${dd}`;
+                updatePreview();
+            }, 0);
+        });
+    </script>
+</body>
+
+</html>
